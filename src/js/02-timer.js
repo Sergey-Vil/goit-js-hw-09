@@ -14,20 +14,6 @@ const daysEl = document.querySelector('[data-days]');
 const hoursEl = document.querySelector('[data-hours]');
 const minutesEl = document.querySelector('[data-minutes]');
 const secondsEl = document.querySelector('[data-seconds]');
-const timerEl = document.querySelector('.timer');
-const fieldEl = document.querySelectorAll('.field');
-
-timerEl.style.display = 'flex';
-timerEl.style.gap = '15px';
-
-fieldEl.forEach(el => {
-  el.style.display = 'flex';
-  el.style.flexDirection = 'column';
-  el.style.alignItems = 'center';
-  // el.style.opacity = 0.5;
-});
-btnStartEl.disabled = true;
-// fieldEl.style.display = 'flex';
 
 // const timePickerEl = document.addEventListener('#datetime-picker');
 const options = {
@@ -45,7 +31,7 @@ const options = {
       btnStartEl.addEventListener('click', () => {
         intId = setInterval(() => {
           const time = selectedDates[0] - new Date();
-          if (time < 1000) {
+          if (time < 500) {
             clearInterval(intId);
           }
           const currentTime = convertMs(time);
@@ -62,10 +48,6 @@ function onShouTime(event) {
   minutesEl.textContent = event.minutes;
   secondsEl.textContent = event.seconds;
 }
-
-function onPad(value) {
-  return String(value).padStart(2, '0');
-}
 function convertMs(ms) {
   // Number of milliseconds per unit of time
   const second = 1000;
@@ -74,13 +56,13 @@ function convertMs(ms) {
   const day = hour * 24;
 
   // Remaining days
-  const days = onPad(Math.floor(ms / day));
+  const days = Math.floor(ms / day);
   // Remaining hours
-  const hours = onPad(Math.floor((ms % day) / hour));
+  const hours = Math.floor((ms % day) / hour);
   // Remaining minutes
-  const minutes = onPad(Math.floor(((ms % day) % hour) / minute));
+  const minutes = Math.floor(((ms % day) % hour) / minute);
   // Remaining seconds
-  const seconds = onPad(Math.floor((((ms % day) % hour) % minute) / second));
+  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
   return { days, hours, minutes, seconds };
 }
