@@ -14,8 +14,19 @@ const daysEl = document.querySelector('[data-days]');
 const hoursEl = document.querySelector('[data-hours]');
 const minutesEl = document.querySelector('[data-minutes]');
 const secondsEl = document.querySelector('[data-seconds]');
+const timerEl = document.querySelector('.timer');
+const fieldEl = document.querySelectorAll('.field');
 
-// const timePickerEl = document.addEventListener('#datetime-picker');
+timerEl.style.display = 'flex';
+timerEl.style.gap = '15px';
+
+fieldEl.forEach(el => {
+  el.style.display = 'flex';
+  el.style.flexDirection = 'column';
+  el.style.alignItems = 'center';
+});
+btnStartEl.disabled = true;
+
 const options = {
   enableTime: true,
   time_24hr: true,
