@@ -10,23 +10,25 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Notiflix from 'notiflix';
 
-const btnStartEl = document.querySelector('[data-start]');
-const daysEl = document.querySelector('[data-days]');
-const hoursEl = document.querySelector('[data-hours]');
-const minutesEl = document.querySelector('[data-minutes]');
-const secondsEl = document.querySelector('[data-seconds]');
-const timerEl = document.querySelector('.timer');
-const fieldEl = document.querySelectorAll('.field');
+const refs = {
+  btnStartEl: document.querySelector('[data-start]'),
+  daysEl: document.querySelector('[data-days]'),
+  hoursEl: document.querySelector('[data-hours]'),
+  minutesEl: document.querySelector('[data-minutes]'),
+  secondsEl: document.querySelector('[data-seconds]'),
+  timerEl: document.querySelector('.timer'),
+  fieldEl: document.querySelectorAll('.field'),
+};
 
-timerEl.style.display = 'flex';
-timerEl.style.gap = '15px';
+refs.timerEl.style.display = 'flex';
+refs.timerEl.style.gap = '15px';
 
-fieldEl.forEach(el => {
+refs.fieldEl.forEach(el => {
   el.style.display = 'flex';
   el.style.flexDirection = 'column';
   el.style.alignItems = 'center';
 });
-btnStartEl.disabled = true;
+refs.btnStartEl.disabled = true;
 
 const options = {
   enableTime: true,
@@ -36,12 +38,19 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     if (selectedDates[0] < new Date()) {
-      btnStartEl.disabled = true;
-      Notiflix.Report.warning('', 'Please choose a date in the future', 'Okay');
-      // alert('Please choose a date in the future');
+      refs.btnStartEl.disabled = true;
+      Notiflix.Report.warning(
+        '',
+        'Please choose a date in the future',
+        'Okay',
+        {
+          width: '360px',
+          svgSize: '120px',
+        }
+      );
     } else {
-      btnStartEl.disabled = false;
-      btnStartEl.addEventListener('click', () => {
+      refs.btnStartEl.disabled = false;
+      refs.btnStartEl.addEventListener('click', () => {
         intId = setInterval(() => {
           const time = selectedDates[0] - new Date();
           if (time < 0) {
@@ -56,30 +65,21 @@ const options = {
 };
 const fp = flatpickr('#datetime-picker', options);
 function onShouTime(event) {
-  daysEl.textContent = event.days;
-  hoursEl.textContent = event.hours;
-  minutesEl.textContent = event.minutes;
-  secondsEl.textContent = event.seconds;
+  refs.daysEl.textContent = event.days;
+  refs.hoursEl.textContent = event.hours;
+  refs.minutesEl.textContent = event.minutes;
+  refs.secondsEl.textContent = event.seconds;
 }
 function convertMs(ms) {
-  // Number of milliseconds per unit of time
   const second = 1000;
   const minute = second * 60;
   const hour = minute * 60;
   const day = hour * 24;
 
-  // Remaining days
   const days = Math.floor(ms / day);
-  // Remaining hours
   const hours = Math.floor((ms % day) / hour);
-  // Remaining minutes
   const minutes = Math.floor(((ms % day) % hour) / minute);
-  // Remaining seconds
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
   return { days, hours, minutes, seconds };
 }
-
-// console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-// console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-// console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}

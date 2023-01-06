@@ -13,23 +13,24 @@
 // нескінченну кількість разів. Зроби так, щоб доки
 // зміна теми запущена, кнопка «Start» була неактивною
 //  (disabled).
-const bodyEl = document.querySelector('body');
-const startBtnEl = document.querySelector('[data-start]');
-const stopBtnEl = document.querySelector('[data-stop]');
+const refs = {
+  bodyEl: document.querySelector('body'),
+  startBtnEl: document.querySelector('[data-start]'),
+  stopBtnEl: document.querySelector('[data-stop]'),
+};
 
-// bodyEl.addEventListener('click', onStartBtnElClick);
-startBtnEl.addEventListener('click', onStartBtnElClick);
-stopBtnEl.addEventListener('click', onStopBtnClick);
+refs.startBtnEl.addEventListener('click', onStartBtnElClick);
+refs.stopBtnEl.addEventListener('click', onStopBtnClick);
 let timeId = null;
-// const timeId = null;
-stopBtnEl.disabled = true;
+
+refs.stopBtnEl.disabled = true;
+
 function onStartBtnElClick() {
   timeId = setInterval(() => {
-    bodyEl.style.background = getRandomHexColor();
+    refs.bodyEl.style.background = getRandomHexColor();
   }, 1000);
-  startBtnEl.disabled = true;
-  stopBtnEl.disabled = false;
-  console.log(timeId);
+  refs.startBtnEl.disabled = true;
+  refs.stopBtnEl.disabled = false;
 }
 
 function getRandomHexColor() {
@@ -39,6 +40,6 @@ function getRandomHexColor() {
 function onStopBtnClick() {
   clearTimeout(timeId);
   timeId = null;
-  startBtnEl.disabled = false;
-  stopBtnEl.disabled = true;
+  refs.startBtnEl.disabled = false;
+  refs.stopBtnEl.disabled = true;
 }
