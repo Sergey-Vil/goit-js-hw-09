@@ -44,7 +44,7 @@ const options = {
       btnStartEl.addEventListener('click', () => {
         intId = setInterval(() => {
           const time = selectedDates[0] - new Date();
-          if (time < 1000) {
+          if (time < 0) {
             clearInterval(intId);
           }
           const currentTime = convertMs(time);
