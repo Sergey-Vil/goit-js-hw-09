@@ -8,6 +8,7 @@
 // технічного обслуговування тощо.
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import Notiflix from 'notiflix';
 
 const btnStartEl = document.querySelector('[data-start]');
 const daysEl = document.querySelector('[data-days]');
@@ -36,13 +37,14 @@ const options = {
   onClose(selectedDates) {
     if (selectedDates[0] < new Date()) {
       btnStartEl.disabled = true;
-      alert('Please choose a date in the future');
+      Notiflix.Report.warning('', 'Please choose a date in the future', 'Okay');
+      // alert('Please choose a date in the future');
     } else {
       btnStartEl.disabled = false;
       btnStartEl.addEventListener('click', () => {
         intId = setInterval(() => {
           const time = selectedDates[0] - new Date();
-          if (time < 0) {
+          if (time < 1000) {
             clearInterval(intId);
           }
           const currentTime = convertMs(time);
