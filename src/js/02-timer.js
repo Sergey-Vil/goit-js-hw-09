@@ -28,8 +28,10 @@ refs.fieldEl.forEach(el => {
   el.style.flexDirection = 'column';
   el.style.alignItems = 'center';
 });
+
 refs.btnStartEl.disabled = true;
 
+let intId = null;
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -50,12 +52,19 @@ const options = {
       );
     } else {
       refs.btnStartEl.disabled = false;
+
       refs.btnStartEl.addEventListener('click', () => {
+        if (intId) {
+          clearInterval(intId);
+        }
         intId = setInterval(() => {
-          const time = selectedDates[0] - new Date();
+          time = selectedDates[0] - new Date();
+          console.log(time);
+
           if (time < 0) {
             clearInterval(intId);
           }
+
           const currentTime = convertMs(time);
           onShouTime(currentTime);
         }, 1000);
@@ -63,7 +72,9 @@ const options = {
     }
   },
 };
+
 const fp = flatpickr('#datetime-picker', options);
+
 function onShouTime(event) {
   refs.daysEl.textContent = event.days;
   refs.hoursEl.textContent = event.hours;
