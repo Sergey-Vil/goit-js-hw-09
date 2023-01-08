@@ -58,7 +58,7 @@ const options = {
           clearInterval(intId);
         }
         intId = setInterval(() => {
-          time = selectedDates[0] - new Date();
+          const time = selectedDates[0] - new Date();
           console.log(time);
 
           if (time < 0) {
