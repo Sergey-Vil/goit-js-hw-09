@@ -61,7 +61,7 @@ const options = {
           const time = selectedDates[0] - new Date();
           console.log(time);
 
-          if (time < 0) {
+          if (time < 1000) {
             clearInterval(intId);
           }
 
